@@ -92,8 +92,8 @@ define docbg = "images/docbg.png"
 define docsign = "images/docsign.png"
 define n = nvl_narrator
 
-define pipe = Character("Petey Pipe", what_slow_cps=50, callback=pipe_sound)
-define ss = Character("Steven Spatula", what_slow_cps=50, callback=mid_beep)
+define pipe = Character("Petey Pipe", what_slow_cps=50, image="petey", callback=pipe_sound)
+define steven = Character("Steven Spatula", image="steven", what_slow_cps=50, callback=mid_beep)
 define cb = Character("Pepper Pinboard", what_slow_cps=50, callback=high_beep)
 define bob = Character("Dr. Bob Dyson", image="bob", what_slow_cps=50, callback=low_beep)
 define mc = Character("[pname]", what_slow_cps=50, callback=mid_beep)
@@ -168,6 +168,7 @@ label thingy_done:
     menu:
         "Bob, are you sure this is entirely ethical? I mean, it is basically slavery...":
             $ bob_affpoint -= 1
+            show bob eh
             bob "... [pname], we have worked countless days and nights, just reach this point. Are you really gonna get caught up in ethices now?"
             jump scenelab1
 
@@ -196,6 +197,8 @@ default ste_seen = False
 default pete_seen = False
 
 label creations:
+    hide steven
+    hide petey
     menu:
         "Pepper" if pep_seen == False:
             bob "In this corner we have Pepper Pinboard! The amazing... well... Pinboard!"
@@ -206,8 +209,10 @@ label creations:
             jump creations
         
         "Steven" if ste_seen == False:
+            show steven idle at center with moveinright
             bob "In this corner currently fuming, is your new favorite chef... {w=0.5}Steven Spatula!"
-            ss "STOP STARING AND START EXPLAINING!"
+            show steven idle at jumpy
+            steven "STOP STARING AND START EXPLAINING!"
             bob "IN A MINUTE STEVEN I AM TRYING TO HAVE A CIVIL CONVERSATION!!"
             bob "{sc}NOT THAT YOU WOULD KNOW WHAT THATS LIKE!!{/sc}"
             bob "Ahem, sorry about that! I promise he is an excelent chef, just as long as you dont go into the kitchen!"
@@ -215,49 +220,57 @@ label creations:
             jump creations
 
         "Petey" if pete_seen == False:
+            show petey noeyes at center with moveinright
             bob "In this corner we have Petey Pipe! The amazing... actually kind of creepy..."
             bob "You know what? Gimme one second to fix this..."
-            # change petey's sprite here
+            show petey idle with dissolve
             bob "There we go! All finished! Meet Petey the new and improved Pipe!"
             bob "He will help you will all your plumbing and construction needs! {w=0.3}The only downside is that he talks a lot."
+            show petey at jumpy
             pipe "{i}*pipe noise*{/i}"
             bob "WE KNOW PETEY WE KNOW!!"
             $ pete_seen = True
             jump creations
 
         "Bob I already know who they are, I helped make them after all.":
-            show bob salute at left with moveinleft
+            
+            show bob salute at center with moveinleft
             bob "OH! right! Sorry about that I just get so excited!"
             jump labexplain
 
 label labexplain:
     mc "Its alright Bob, I get it! But let's please tell these poor people why they are here?"
-    bob int "Creations [pname], they aren't people yet."
+    bob int "Creations, [pname], they aren't people yet."
     bob agree "But of course! Lets get explaining!"
     bob "All of you are here for a grand, noble purpose... {w}TO HELP HUMANITY!"
     cb "Help humanity? Whats humanity? Why do they need help?"
+    show petey idle at left with moveinleft
     pipe "{i}*Confused pipe noise*{/i}"
-    ss "... Sounds fishy to me..."
+    show steven idle at right with moveinright
+    steven "... Sounds fishy to me..."
     bob point "One at a time please, one at a time! But to answer Pepper's questions."
     bob "Humanity refers to all humans, and humanity is in dire need of one thing...{w=0.5} Workers!"
     cb "So... where do we come in?"
-    ss "Pepper... Im pretty sure he is saying we are the workers..."
+    steven "Pepper... Im pretty sure he is saying we are the workers..."
     bob salute "Great listening ears Steven! That is absolutely correct! You guys will fill the roles that humans have outgrown!"
-    ss "{sc}SO YOU ARE JUST GONNA MAKE US WORK??? THAT'S OUR \nEXISTENCE?? TO WORK YOUR OLD JOBS?{/sc}"
+    show steven idle at shake
+    steven "{sc}SO YOU ARE JUST GONNA MAKE US WORK??? THAT'S OUR \nEXISTENCE?? TO WORK YOUR OLD JOBS?{/sc}"
+    hide steven idle
+    show steven idle at right
     bob int "Well yes.. but-"
     mc "What Dr. Dyson was trying to say was, while that is the plan, you guys would not necessarily be doing that,"
     mc "All of you are what we call \"prototypes\"— you guys will technically still have jobs but it will likely only be temporary until our grant is signed so we can start making more of you!"
     cb "Make more of us?"
-    ss "What will happen to us?"
+    steven "What will happen to us?"
 
     menu:
         " We... aren't exactly sure yet... most likely you will simply be integrated into society.":
             $ pete_affpoint += 1
             $ pep_affpoint += 1
-            show bob salute
+            show bob eh
             cb "Could be worse I suppose... thank you."
             pipe "{i}*PIPE NOISE!*{/i}"
-            ss "Im not buying it..."
+            steven "Im not buying it..."
 
         "We... aren't sure yet... chances are you will work for us or... Dr. Dyson and I will have to think about the other possibilities.":
             #if bob aff is low, you dont get a point
@@ -268,10 +281,10 @@ label labexplain:
             else:
                 $ bob_affpoint +=1
 
-            ss "I respect the honesty, but thats still not really good news for us."
+            steven "I respect the honesty, but thats still not really good news for us."
             bob point "I understand you might be a little confused or frustrated, but this is really important for us and the fate of humanity."
             cb "I guess... its still not fair.."
-            bob "{i}Pepper life isn't-{/i}"
+            bob eh "{i}Pepper life isn't-{/i}"
 
     show bob int
     play sound "audio/phone_ring.ogg"
@@ -280,15 +293,22 @@ label labexplain:
     jump grantcall
 
 label grantcall:
+    hide steven
+    hide petey
     # mayb a phone graphic?
     stop sound
     window show
-    gr "Hey guys, just reviewed the proposal you sent in... Bob, no way you actually did this. [pname], maybe, but Bob? I don't think the guy's had an actual success since he (redacted noise here)"
+    show bob at left with move
+    show phone with moveinright:
+        xalign 0.9
+        yalign 1.0
+    gr "Hey guys, just reviewed the proposal you sent in... Bob, no way you actually did this. [pname], maybe, but Bob? I don't think the guy's had an actual success since he █████"
     show bob int at jumpy
     bob "I HAVE OKAY!! It's just that admission won't give me any funding to complete them..."
-    show bob salute
+    show bob eh
     gr "Sure, buddy, I'm sure you haven't just been sitting around daydreaming."
     gr "Anyway, if this is true, corporate would definitely want to hear about it, {w}so before they sign the grant they are going to send out some people to check if you are telling the truth."
+    show phone at jumpy
     gr "If you are, that's amazing! You guys will finally be able to get the regeneration that you so rightfully have fought for!"
     gr "... If we come there and there are no \"Anthropomorphic Objects,\"{w=0.5} as I believe you put it, then Corporate says they will have to cut your guys' funding."
     gr "I know this is your guys' dreams, for whatever reason, and as much as I enjoy reading these crazy mystical ideas of yours, corporate has bigger fish to fry."
@@ -299,4 +319,54 @@ label grantcall:
     mc "Absolutely."
     cb "...{w=0.5} did they forget about us?"
     pipe "{i}*agree pipe noise*{/i}"
-    return
+    bob agree "Nope! Just waiting for all of your practice rooms to be finished!"
+    # ping noise here
+    window hide
+    hide phone with dissolve
+    $ renpy.pause(0.5, hard=True)
+    window show
+    bob wave "Bye Grant! It was interesting talking to you! Give my praises to corprate!"
+
+    jump day1
+
+label day1:
+    # scene change - cubicles
+    hide bob 
+    
+    mc "{i}(huh, I guess Bob's not here today...){/i}"
+    menu:
+        "Check on Steven.":
+            jump steven_d1
+
+        "Check on Pepper.":
+            jump pepper_d1
+
+        "Check on Petey.":
+            jump petey_d1
+
+        "Look for Bob.":
+            jump bob_d1
+
+
+label steven_d1:
+    # scene change - kitchen
+
+    show steven idle at right with moveinright
+    "{i}[[[pname!u] WALKS INTO KITCHEN TO SEE A VERY ANGRY STEVEN YELLING AT WHAT SEEMS TO BE A PLATE WITH A WHOLE RAW EGG ON A PAN]{/i}"
+    steven "{sc}ITS BLOODY RAW!{/sc}"
+    steven "Oh, hello [pname]. I was just cooking breakfast,{w=0.5} its the most important meal of the day you know."
+    steven "Actually it's not, I don't know why I said that, {w}that was a myth food companies created in the 1800s and 1900s to sell more cereal and bacon."
+    mc "I'm surprised you know that considering you were a spatula 2 days ago."
+    mc "Also you know you need to crack the egg... {w=0.3}right?"
+    if steve_affpoint >= 1:
+        steven "...Oh... that... actually makes a lot of sense...{w} uh.. thank you..."
+    else:
+        steven "...Yes... I knew that. I am a chef after all! How dare you assume my intelligence!"
+
+    steven "ANYWAY, what made you wanna come into the kitchen, I presume, it was to see me, but there has to be another reason."
+    mc "You would be correct! I came here to check on you and tell you to go to the cubicles to socialize,{w} as I tell Bob, you can't be a shut in all your life."
+    steven "I don't know how you work with that guy, he's so... I don't know."
+    steven "He looks like he'd sell out his family for some turkish delight and have no regrets, you know what I mean?"
+    mc "No? Not really, sorry."
+    steven "Never mind, lets go."
+    $ steve_affpoint += 1
