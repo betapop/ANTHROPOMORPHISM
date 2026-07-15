@@ -4,5 +4,11 @@
         "**/*.rpa": true,
         "**/*.rpymc": true,
         "**/cache/": true
-    }
+    },
+    "vscode-pets.theme": "beach",
+    "vscode-pets.petType": "cat",
+    "vscode-pets.petColor": "socks black",
+    "cSpell.words": [
+        "Pinboard"
+    ]
 }
