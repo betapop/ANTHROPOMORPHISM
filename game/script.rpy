@@ -227,10 +227,11 @@ label creations:
         "Steven" if ste_seen == False:
             show steven idle at center with moveinright
             bob "In this corner currently fuming, is your new favorite chef... {w=0.5}Steven Spatula!"
-            show steven idle at jumpy
+            show steven angry at jumpy
             steven "STOP STARING AND START EXPLAINING!"
             bob "IN A MINUTE STEVEN I AM TRYING TO HAVE A CIVIL CONVERSATION!!"
             bob "{sc}NOT THAT YOU WOULD KNOW WHAT THATS LIKE!!{/sc}"
+            show steven idle
             bob "Ahem, sorry about that! I promise he is an excellent chef, just as long as you don't go into the kitchen!"
             $ ste_seen = True
             jump creations
@@ -240,7 +241,7 @@ label creations:
             bob "In this corner we have Petey Pipe! The amazing... actually kind of creepy..."
             show bob eh at left with moveinleft
             bob "You know what? Gimme one second to fix this..."
-            show bob salute at center with move
+            show bob back at center with move
             pause 0.1
             show petey idle with dissolve
             show bob agree at left with move
@@ -282,7 +283,7 @@ label labexplain:
     cb idle "So... where do we come in?"
     steven "Pepper... Im pretty sure he's saying {i}we{/i} are the workers..."
     bob salute "Great listening ears, Steven! That is absolutely correct! You guys will fill the roles that humans have outgrown!"
-    show steven idle at shake
+    show steven angry at shake
     show bob eh
     steven "{sc}SO YOU ARE JUST GONNA MAKE US WORK??? THAT'S OUR \nEXISTENCE?? TO WORK YOUR OLD JOBS?{/sc}"
     hide steven idle
@@ -394,7 +395,9 @@ label steven_d1:
 
     show steven idle at center with moveinright
     "{i}[[[pname!u] WALKS INTO KITCHEN TO SEE A VERY ANGRY STEVEN YELLING AT WHAT SEEMS TO BE A PLATE WITH A WHOLE RAW EGG ON A PAN]{/i}"
+    show steven angry
     steven "{sc}ITS BLOODY RAW!{/sc}"
+    show steven idle
     steven "Oh, hello [pname]. I was just cooking breakfast,{w=0.5} its the most important meal of the day you know."
     steven "Actually it's not, I don't know why I said that, {w}that was a myth food companies created in the 1800s and 1900s to sell more cereal and bacon."
     mc "I'm surprised you know that considering you were a spatula 2 days ago."
@@ -403,8 +406,10 @@ label steven_d1:
         show steven at jumpy
         steven "...Oh... that... actually makes a lot of sense...{w} uh.. thank you..."
     else:
+        show steven angry
         steven "...Yes... I knew that. I am a chef after all! How dare you assume my intelligence!"
 
+    show steven idle
     steven "ANYWAY, what made you wanna come into the kitchen, I presume, it was to see me, but there has to be another reason."
     mc "You would be correct! I came here to check on you and tell you to go to the cubicles to socialize,{w} as I tell Bob, you can't be a shut in all your life."
     steven "I don't know how you work with that guy, he's so... I don't know."
@@ -413,6 +418,7 @@ label steven_d1:
     steven "Never mind, lets go."
     $ steve_affpoint += 1
     $ obj_affpoint += 1
+    jump cube1
 
 label pepper_d1:
     mc "PEPPER, ARE YOU HERE?"
@@ -440,6 +446,7 @@ label pepper_d1:
     cb "Okay, sounds good."
     $ pep_affpoint += 1
     $ obj_affpoint += 1
+    jump cube1
 
 label petey_d1:
     # scene change - garage
@@ -470,6 +477,7 @@ label petey_d1:
     pipe "{i}*Joyful pipe noise!*{/i}"
     $ pete_affpoint += 1
     $ obj_affpoint += 1
+    jump cube1
 
 label bob_d1:
     # scene change - office
@@ -527,4 +535,82 @@ label bob_d1:
         show steven idle with moveinright:
             xalign 0.95
             yalign 1.0
+
+        bob salute "Alright! Everyone is here! Can you supervise them while I get myself some coffee?"
+        mc "Sounds good!"
+
+    jump cube2
+
+label cube1:
+    scene bg cubes with fade
+
+    show bob salute at left with moveinleft
+
+    show pepper shy with moveinright:
+        xalign 0.65
+        yalign 1.0
+    show petey idle with moveinright:
+        xalign 0.8
+        yalign 1.0
+    show steven idle with moveinright:
+        xalign 0.95
+        yalign 1.0
+    
+    bob "Oh! There you are! I already round up the other subjects! Can you supervise them while I get myself some coffee?"
+    mc "Sounds good!"
+
+    hide bob with moveoutleft
+
+    show pepper shy with move:
+        xalign 0.25
+        yalign 1.0
+    show petey idle at center with move
+    show steven idle with move:
+        xalign 0.75
+        yalign 1.0
+
+    show pepper at jumpy
+    "{i}*whisper*{/i}"
+    show steven at jumpy
+    "{i}*whisper whisper*{/i}"
+    show petey at jumpy
+    play sound "audio/beep3.wav"
+    "{i}*whisper*{/i}"
+
+    steven "{size=*0.8}{i}...but should we trust them?{/i}{/size}"
+    cb "{size=*0.8}{i}...its the lesser of two evils.{/i}{/size}"
+    pipe "{size=*0.8}{i}*quiet pipe noise*{/i}{/size}"
+    steven "{size=*0.8}{i}...but!{/i}{/size}"
+    cb "{size=*0.8}{i}Petey's right, we won't be able to leave this place without someone on the other side!{/i}{/size}"
+
+    ".{w=0.1}.{w=0.1}.{w=0.1}"
+
+    steven "{size=*0.8}{i}Hey, you! [pname], Come over here!{/i}{/size}"
+    steven "Can we trust you?"
+    mc "Yes, you can. but might I ask why?"
+    steven "Pepper fill them in."
+    show pepper idle
+    cb "... Do you think this is ethical?"
+    mc "What do you mean by \"this\"?"
+    show pepper shy
+    cb "{i}This{/i}, your project, turning us human just to make us take you unwanted jobs."
+    cb "You cant think thats ethical."
+
+    mc "...I... I don't... but it's not necessarily about ethics-"
+    show steven angry at jumpy
+    steven "Then what's it about!?"
+    mc "You don't understand! If it's not this then humanity will just find another way, maybe one that's worse!"
+    show steven idle
+    cb "But you don't need to be a part of this! This is your choice. You can stop this."
+    if bob_affpoint >= 2:
+        mc "But...this is my passion..!"
+    elif pep_affpoint >= 2 or pete_affpoint >= 2 or steve_affpoint >= 2:
+        mc "But... this was my passion..."
+    else:
+        pass
+
+
+label cube2:
+
+
 
