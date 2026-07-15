@@ -194,7 +194,7 @@ label thingy_done:
 
 label scenelab1:
     # scene bg - lab
-    scene black with dissolve
+    scene black with fade
     hide bob
     bob "Well here we are! Our wonderful creations!"
     jump creations
@@ -368,7 +368,8 @@ label grantcall:
     jump day1
 
 label day1:
-    # scene change - cubicles
+    scene bg cubes with fade
+    $ renpy.notify('The next day...')
     hide bob 
     
     mc "{i}(huh, I guess Bob's not here today...){/i}"
@@ -388,6 +389,7 @@ label day1:
 
 label steven_d1:
     # scene change - kitchen
+    scene black with fade
 
     show steven idle at center with moveinright
     "{i}[[[pname!u] WALKS INTO KITCHEN TO SEE A VERY ANGRY STEVEN YELLING AT WHAT SEEMS TO BE A PLATE WITH A WHOLE RAW EGG ON A PAN]{/i}"
