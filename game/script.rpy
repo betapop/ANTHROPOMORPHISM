@@ -302,6 +302,7 @@ label labexplain:
         " We... aren't exactly sure yet... most likely you will simply be integrated into society.":
             $ pete_affpoint += 1
             $ pep_affpoint += 1
+            $ obj_affpoint += 1
             show bob eh
             cb "Could be worse I suppose... thank you."
             pipe "{i}*PIPE NOISE!*{/i}"
@@ -411,3 +412,119 @@ label steven_d1:
     mc "No? Not really, sorry."
     steven "Never mind, lets go."
     $ steve_affpoint += 1
+    $ obj_affpoint += 1
+
+label pepper_d1:
+    mc "PEPPER, ARE YOU HERE?"
+    show pepper shy at center with moveinleft
+    mc "Oh goodness! Where on earth did you come from?"
+    cb "{size=*0.8}i was just... standing in the corner...{/size}"
+    mc "That is... a little depressing."
+    show pepper at shake
+    cb "I mean... i'm supposed to be a secretary but.. {w=0.3}no one told me what to do...{w=0.5} and i don't have access to any of the computers, so..."
+    mc "Oh.. sorry about that Pepper! I will make sure to leave you a list next time!!"
+    hide pepper
+    show pepper idle at center, jumpy
+    cb "Hey... [pname]?"
+    mc "Yes?"
+    show pepper shy
+    if pep_affpoint >= 1:
+        cb "You aren't going to re-integrate us, are you?"
+        mc "... We.. don't know Pepper, we are still figuring it out."
+        cb "That's what I thought..."
+        mc "...Hey, Pepper, do you wanna wait here while I go get your friends?"
+    else:
+        cb "{size=*0.8}nevermind...{/size}"
+        mc "Alright..? Hey, Pepper, do you wanna wait here while I go get your friends?"
+
+    cb "Okay, sounds good."
+    $ pep_affpoint += 1
+    $ obj_affpoint += 1
+
+label petey_d1:
+    # scene change - garage
+    scene black with fade
+
+    show petey idle at center with moveinright
+    mc "Hey Petey! What are you up to?"
+    show petey at jumpy
+    pipe "{i}*PIPE NOISE*{/i}"
+    mc "Oh! you just wrote some poetry? I mean that's not your job but, can I hear it?"
+    if pete_affpoint >= 1:
+        play music "audio/rizz.mp3"
+        pipe "{i}*array of pipe noises and romantic music*{/i}"
+        mc "Oh, how you swoon me Petey, you really have a way with your words."
+        stop music fadeout 0.5
+    else:
+        play music pipe_voice
+        pipe "{i}*array of pipe noises*{/i}"
+        mc "You really have a way with words, Petey."
+        stop music fadeout 0.5
+    
+    mc "But did you get any actual work done?"
+    show petey at jumpy
+    pipe "{i}*MILDLY ANNOYED PIPE NOISE*{/i}"
+    mc "I know its not the best job around, but its still your job, so i'm glad you did it. Good job Petey!"
+    pipe "{i}*PIPE NOISE*{/i}"
+    mc "Now, lets get you with your friends!"
+    pipe "{i}*Joyful pipe noise!*{/i}"
+    $ pete_affpoint += 1
+    $ obj_affpoint += 1
+
+label bob_d1:
+    # scene change - office
+    scene black with fade
+
+    mc "BOB! WHERE ARE YOU?"
+    mc "{i}(I hear something below me...){/i}"
+    show bob death at center with moveinbottom
+    mc "Goodness bob... again?"
+    mc "{i}(I'll just wake him up.){/i}"
+    show bob int at jumpy
+    bob "{sc}NO DON'T TAKE MY SOCKS!{/sc}"
+    if bob_affpoint >= 1:
+        show bob salute at jumpy
+        bob "Oh! It's just you, sorry [pname]!"
+    else:
+        bob "Oh! It's just you."
+
+    show bob eh
+    mc "Bob... you cant keep doing this!"
+    mc "I know that you really care about this project, but the grant isn't just going to {i}magically{/i} get signed if you keep refreshing your inbox."
+    bob "Well...{w=0.5} Technically you don't know that for sure..."
+    mc "Bob..."
+
+    if bob_affpoint >= 2:
+        show bob agree
+        mc "Nevermind, I'll go round up the others while you get yourself some coffee."
+        bob "Thank you [pname], really, thank you."
+        scene bg cubes with fade
+
+        show pepper shy with moveinright:
+            xalign 0.25
+            yalign 1.0
+        show petey idle at center with moveinright
+        show steven idle with moveinright:
+            xalign 0.75
+            yalign 1.0
+        
+        mc "Alright! Bob is getting himself some coffee, you guys can just hang out here for a bit!"
+
+    else:
+        mc "Nevermind, lets go round up the others."
+        show bob agree
+        bob "Alight lets go."
+        scene bg cubes with fade
+
+        show bob at left with move
+
+        show pepper shy with moveinright:
+            xalign 0.65
+            yalign 1.0
+        show petey idle with moveinright:
+            xalign 0.8
+            yalign 1.0
+        show steven idle with moveinright:
+            xalign 0.95
+            yalign 1.0
+
