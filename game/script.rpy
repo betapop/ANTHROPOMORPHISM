@@ -214,7 +214,7 @@ label creations:
                 yalign 1.0
                 xalign 0.9
             bob "In this corner we have Pepper Pinboard! The amazing... well... Pinboard!"
-            show pepper shy with move:
+            show pepper worried with move:
                 yalign 1.0
                 xalign 0.7
             bob "They will surely do a great job taking over all your secretary needs! {w=0.5}And as an added bonus they remember anything you put on them!"
@@ -277,11 +277,11 @@ label labexplain:
     show steven idle with moveinright:
         xalign 0.95
         yalign 1.0
-    steven "... Sounds fishy to me..."
+    steven think "... Sounds fishy to me..."
     bob point "One at a time please, one at a time! But to answer Pepper's questions."
     bob "Humanity refers to all humans, and humanity is in dire need of one thing...{w=0.5} Workers!"
     cb idle "So... where do we come in?"
-    steven "Pepper... Im pretty sure he's saying {i}we{/i} are the workers..."
+    steven idle "Pepper... Im pretty sure he's saying {i}we{/i} are the workers..."
     bob salute "Great listening ears, Steven! That is absolutely correct! You guys will fill the roles that humans have outgrown!"
     show steven angry at shake
     show bob eh
@@ -307,7 +307,7 @@ label labexplain:
             show bob eh
             cb "Could be worse I suppose... thank you."
             pipe "{i}*PIPE NOISE!*{/i}"
-            steven "Im not buying it..."
+            steven think "Im not buying it..."
 
         "We... aren't sure yet... chances are you will work for us or... Dr. Dyson and I will have to think about the other possibilities.":
             #if bob aff is low, you don't get a point
@@ -412,10 +412,10 @@ label steven_d1:
     show steven idle
     steven "ANYWAY, what made you wanna come into the kitchen, I presume, it was to see me, but there has to be another reason."
     mc "You would be correct! I came here to check on you and tell you to go to the cubicles to socialize,{w} as I tell Bob, you can't be a shut in all your life."
-    steven "I don't know how you work with that guy, he's so... I don't know."
+    steven think "I don't know how you work with that guy, he's so... I don't know."
     steven "He looks like he'd sell out his family for some turkish delight and have no regrets, you know what I mean?"
     mc "No? Not really, sorry."
-    steven "Never mind, lets go."
+    steven idle "Never mind, lets go."
     $ steve_affpoint += 1
     $ obj_affpoint += 1
     jump cube1
@@ -482,7 +482,7 @@ label petey_d1:
 label bob_d1:
     # scene change - office
     scene black with fade
-
+    
     mc "BOB! WHERE ARE YOU?"
     mc "{i}(I hear something below me...){/i}"
     show bob death at center with moveinbottom
@@ -517,6 +517,8 @@ label bob_d1:
             yalign 1.0
         
         mc "Alright! Bob is getting himself some coffee, you guys can just hang out here for a bit!"
+        $ bob_affpoint += 1
+        jump whispercube
 
     else:
         mc "Nevermind, lets go round up the others."
@@ -524,7 +526,7 @@ label bob_d1:
         bob "Alight lets go."
         scene bg cubes with fade
 
-        show bob at left with move
+        show bob wave at left with move
 
         show pepper shy with moveinright:
             xalign 0.65
@@ -538,8 +540,10 @@ label bob_d1:
 
         bob salute "Alright! Everyone is here! Can you supervise them while I get myself some coffee?"
         mc "Sounds good!"
-
-    jump cube2
+        $ bob_affpoint += 1
+        hide bob with moveoutleft
+        pause 0.2
+    jump whispercube
 
 label cube1:
     scene bg cubes with fade
@@ -560,7 +564,10 @@ label cube1:
     mc "Sounds good!"
 
     hide bob with moveoutleft
+    jump whispercube
 
+
+label whispercube:
     show pepper shy with move:
         xalign 0.25
         yalign 1.0
@@ -577,24 +584,22 @@ label cube1:
     play sound "audio/beep3.wav"
     "{i}*whisper*{/i}"
 
-    steven "{size=*0.8}{i}...but should we trust them?{/i}{/size}"
-    cb "{size=*0.8}{i}...its the lesser of two evils.{/i}{/size}"
+    steven think "{size=*0.8}{i}...but should we trust them?{/i}{/size}"
+    cb worried "{size=*0.8}{i}...its the lesser of two evils.{/i}{/size}"
     pipe "{size=*0.8}{i}*quiet pipe noise*{/i}{/size}"
     steven "{size=*0.8}{i}...but!{/i}{/size}"
-    cb "{size=*0.8}{i}Petey's right, we won't be able to leave this place without someone on the other side!{/i}{/size}"
+    cb shy "{size=*0.8}{i}Petey's right, we won't be able to leave this place without someone on the other side!{/i}{/size}"
 
     ".{w=0.1}.{w=0.1}.{w=0.1}"
 
-    steven "{size=*0.8}{i}Hey, you! [pname], Come over here!{/i}{/size}"
-    steven "Can we trust you?"
+    steven angry "{size=*0.8}{i}Hey, you! [pname], Come over here!{/i}{/size}"
+    steven think "Can we trust you?"
     mc "Yes, you can. but might I ask why?"
-    steven "Pepper fill them in."
-    show pepper idle
-    cb "... Do you think this is ethical?"
+    steven idle "Pepper fill them in."
+    cb shy "... Do you think this is ethical?"
     mc "What do you mean by \"this\"?"
-    show pepper shy
     cb "{i}This{/i}, your project, turning us human just to make us take you unwanted jobs."
-    cb "You cant think thats ethical."
+    cb "You can't think that's ethical."
 
     mc "...I... I don't... but it's not necessarily about ethics-"
     show steven angry at jumpy
@@ -603,14 +608,80 @@ label cube1:
     show steven idle
     cb "But you don't need to be a part of this! This is your choice. You can stop this."
     if bob_affpoint >= 2:
+        $ bob_affpoint -= 1
         mc "But...this is my passion..!"
+        mc "I worked so hard on this! For years! I spent countless sleepless nights just to make you guys!"
+        show steven angry at shake
+        steven "{sc}BUT WE DIDN'T ASK TO BE CREATED!{/sc}"
+        show pepper idle
+        cb "Steven! Lower your voice!"
+        hide steven
+        show steven idle:
+            xalign 0.75
+            yalign 1.0
+        steven "BUT! ugh... sorry guys."
+        show pepper worried
+        cb "Its alright Steven, I understand."
+        show pepper shy
+        cb "But [pname], you need to understand! This isn't right! We need to stop it! We have thoughts, feelings!"
+        show pepper at jumpy 
+        cb "You can't give us the gift of life and then force us to spend all of it serving you!"
+        mc "... I need to think about this."
+        show pepper idle
+        cb "...take your time Dr. [pname]..."
+        jump postcube
     elif pep_affpoint >= 2 or pete_affpoint >= 2 or steve_affpoint >= 2:
-        mc "But... this was my passion..."
+        jump objectplan
+
     else:
-        pass
+        jump objectplan
+
+label objectplan:
+    $ pep_affpoint += 1
+    $ pete_affpoint += 1
+    $ steve_affpoint += 1
+    $ obj_affpoint += 1
+    mc "But... this was my passion..."
+    mc "I worked so hard on this... all those years... those sleepless nights..."
+    mc "But... you guys are right."
+    mc "This isn't right."
+    mc "But... Do you have a proposal to how we can fix it?"
+    show pepper at jumpy
+    cb "Petey, tell them the plan."
+    # epic music i'll put here later
+    pipe "{i}*Epic music with array of pipe noises*{/i}"
+    mc "Wow... Petey, that was wonderful, so detailed... {w=0.5}If I didn't make you I would think you where a professional plan-maker of 12 years!"
+    mc "I will do what I can to make sure this plan goes through."
+    show pepper shy
+    cb "Thank you [pname], thats all we can ask."
+    mc "You should probably get back to your rooms now, before Dr. Dyson gets back..."
+    steven "You're probably right... welp see you later [pname]."
+    show petey at jumpy
+    pipe "{i}*Thankful, pipe noise*{/i}"
+    jump postcube
+
+label postcube:
+    # scene change - office
+    hide steven
+    hide pepper
+    hide petey
+    scene black 
+    with fade
+    
+    show bob salute at center with moveinright
+    bob "There you are [pname]! Sorry, I got caught up in some emails! {w}Did you send the prototypes back to their rooms?"
+    mc "Yes, I did, by the way..."
+    menu:
+        "The objects are planning on escaping.":
+            jump spy1
+
+        "Any updates from coroprate?":
+            jump help1
 
 
-label cube2:
+label spy1:
+    show bob int at jumpy
+    bob "{sc}THEY WHAT?{/sc}"
 
 
-
+label help1:
